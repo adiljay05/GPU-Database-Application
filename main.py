@@ -14,6 +14,19 @@ app = Flask(__name__)
 datastore_client = datastore.Client()
 firebase_request_adapter = requests.Request()
 
+@app.route('/add_gpu', methods=['POST'])
+def add_gpu():
+    id_token = request.cookies.get("token")
+    claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
+    user_info = functions.retrieveUserInfo(claims)
+    return render_template('add_gpu.html', user_data=user_info)
+
+@app.route('/add_gpu_to_datastore',methods = ['POST'])
+def add_gpu_to_datastore():
+    obj = GPU_info(request.form['gpu_name'],request.form['manufacturer'],request.form['issue_date'],request.form['geometryShader'],request.form['tesselationShader'],request.form['shaderInt16'],request.form['sparseBinding'],request.form['textureCompressionETC2'],request.form['vertexPipelineStoresAndAtomics'])
+    functions.add_GPU(obj)
+    return redirect('/')
+
 @app.route('/')
 def root():
     id_token = request.cookies.get("token")

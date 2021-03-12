@@ -20,6 +20,11 @@
 			<dt>Name:</dt><dd>{{ user_data['name'] }}</dd>
 			<dt>Email:</dt><dd>{{ user_data['email'] }}</dd>
 		</dl>
+		<div>
+			<form action="/add_gpu" method="post">
+				<input type="submit" name="add_gpu" value="ADD GPU"/>
+			</form>
+		</div>
 		{% elif error_message %}
 		<p>Error Message: {{ error_message }}</p>
 		{% endif %}

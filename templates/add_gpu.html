@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Add GPU</title>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <script src="/static/scripts.js"></script>
+</head>
+
+<body>
+    <h1>GPU Database</h1>
+    <div id="firebase-auth-container"></div>
+    <button id="sign-out" hidden="true">Sign out</button>
+    <div id="login-info" hidden="true">
+        <h2>Add GPU</h2>
+		{% if user_data %}
+		<dl>
+		<dt>Name:</dt><dd>{{ user_data['name'] }}</dd>
+		<dt>Email:</dt><dd>{{ user_data['email'] }}</dd>
+		</dl>
+		<!-- form for adding in a new address -->
+		<form action="/add_gpu_to_datastore" method="post">
+            <dt>GPU Name: </dt><dd><input type="text" name="gpu_name" placeholder="GPU Name"></dd>
+            <dt>GPU Manufacturer: </dt><dd><input type="text" name="manufacturer" placeholder="GPU Manufacturer"></dd>
+            <dt>Issue Date: </dt><dd><input type="date" name="issue_date" placeholder="Issue Date"></dd>
+            <dt>Geometry Shader: </dt><dd><input type="text" name="geometryShader" placeholder="Geometry Shader"> </dd>
+            <dt>Tesselation Shader: </dt><dd><input type="text" name="tesselationShader" placeholder="Tesselation Shader"></dd>
+            <dt>ShaderInt16: </dt><dd><input type="text" name="shaderInt16" placeholder="ShaderInt16"></dd>
+            <dt>Sparse Binding: </dt><dd><input type="text" name="sparseBinding" placeholder="Sparse Binding"></dd>
+            <dt>Texture Compression ETC2: </dt><dd><input type="text" name="textureCompressionETC2" placeholder="Texture Compression ETC2"></dd>
+            <dt>Vertex Pipeline Stores And Atomics</dt><dd><input type="text" name="vertexPipelineStoresAndAtomics" placeholder="Vertex Pipeline Stores And Atomics"></dd>
+		    <input type="submit" value="ADD GPU" name="button"/>
+		</form>
+		<br/>
+		{% elif error_message %}
+		<p>Please Login again to add GPU</p>
+		{% endif %}
+    </div>
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+<script src="{{ url_for('static', filename='app-setup.js') }}"></script>
+
+</html>
