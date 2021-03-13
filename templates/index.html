@@ -25,6 +25,13 @@
 				<input type="submit" name="add_gpu" value="ADD GPU"/>
 			</form>
 		</div>
+		{% if GPU_list != None %}
+			{% for gpu in GPU_list %}
+				<p>{{ gpu['name'] }}</p>
+			{% endfor %}
+		{% else %}
+			<p>No GPU found in Database</p>
+		{% endif %}
 		{% elif error_message %}
 		<p>Error Message: {{ error_message }}</p>
 		{% endif %}

@@ -49,3 +49,7 @@ def add_GPU(obj):
 def get_specific_GPU(entity_key):
     return datastore_client.get(entity_key)
 
+def get_all_gpus():
+    query = datastore_client.query(kind='GPUInfo')
+    return query.fetch()
+

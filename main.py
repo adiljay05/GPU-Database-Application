@@ -37,15 +37,17 @@ def root():
     claims = None
     user_info = None
     addresses = None
+    GPU_list = None
     if id_token:
         try:
             claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
             user_info = functions.retrieveUserInfo(claims)
             if user_info == None:
                 functions.createUserInfo(claims)
+            GPU_list = functions.get_all_gpus()
         except ValueError as exc:
             error_message = str(exc)
-    return render_template('index.html', user_data=user_info, error_message=error_message)
+    return render_template('index.html', user_data=user_info, error_message=error_message,GPU_list = GPU_list)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
