@@ -30,6 +30,16 @@ def add_gpu_to_datastore():
     else:
         return render_template('error.html',error="Record Already Exists")
 
+@app.route('/show_details',methods = ['POST'])
+def show_details_of_GPU():
+    gpu_name = request.form['gpu_name']
+    entity_key = datastore_client.key('GPUInfo', gpu_name)
+    gpu_data = functions.get_specific_GPU(entity_key)
+    id_token = request.cookies.get("token")
+    claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
+    user_info = functions.retrieveUserInfo(claims)
+    return render_template('GPU_Details.html',user_data = user_info ,gpu_data = gpu_data)
+
 @app.route('/')
 def root():
     id_token = request.cookies.get("token")

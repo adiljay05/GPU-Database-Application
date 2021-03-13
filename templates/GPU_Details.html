@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>GPU Database</title>
+    <title>GPU Details</title>
     <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
     <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -11,33 +11,26 @@
 </head>
 
 <body>
-    <h1>GPU Database</h1>
+    <h1>GPU Details</h1>
     <div id="firebase-auth-container"></div>
     <button id="sign-out" hidden="true">Sign out</button>
     <div id="login-info" hidden="true">
 		{% if user_data %}
-		<dl>
-			<dt>Name:</dt><dd>{{ user_data['name'] }}</dd>
-			<dt>Email:</dt><dd>{{ user_data['email'] }}</dd>
-		</dl>
-		<div>
-			<form action="/add_gpu" method="post">
-				<input type="submit" name="add_gpu" value="ADD GPU"/>
-			</form>
-		</div>
-		{% if GPU_list != None %}
-		{% set i = 0 %}
-			{% for gpu in GPU_list %}
-			<form action='/show_details' method="post" id="myform{{loop.index}}">
-				<input type="hidden" name="gpu_name" value="{{ gpu['name'] }}">
-				<p><a href="#" onclick="document.getElementById('myform{{loop.index}}').submit();"> {{ gpu['name'] }}</a></p>
-				{% set i = i + 1 %}
-			</form>
-			{% endfor %}
-		{% else %}
-			<p>No GPU found in Database</p>
-		{% endif %}
-		{% elif error_message %}
+            <dl>
+                <dt>Name:</dt><dd>{{ user_data['name'] }}</dd>
+                <dt>Email:</dt><dd>{{ user_data['email'] }}</dd>
+            </dl>
+            <p>{{ gpu_data['name'] }}</p>
+            <p>{{ gpu_data['manufacturer'] }}</p>
+            <p>{{ gpu_data['issued_date'] }}</p>
+            <p>{{ gpu_data['geometryShader'] }}</p>
+            <p>{{ gpu_data['tesselationShader'] }}</p>
+            <p>{{ gpu_data['shaderInt16'] }}</p>
+            <p>{{ gpu_data['sparseBinding'] }}</p>
+            <p>{{ gpu_data['textureCompressionETC2'] }}</p>
+            <p>{{ gpu_data['vertexPipelineStoresAndAtomics'] }}</p>
+
+        {% elif error_message %}
 		<p>Error Message: {{ error_message }}</p>
 		{% endif %}
     </div>
