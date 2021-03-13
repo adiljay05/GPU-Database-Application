@@ -21,17 +21,40 @@
 		<dt>Name:</dt><dd>{{ user_data['name'] }}</dd>
 		<dt>Email:</dt><dd>{{ user_data['email'] }}</dd>
 		</dl>
-		<!-- form for adding in a new address -->
 		<form action="/add_gpu_to_datastore" method="post">
             <dt>GPU Name: </dt><dd><input type="text" name="gpu_name" placeholder="GPU Name"></dd>
             <dt>GPU Manufacturer: </dt><dd><input type="text" name="manufacturer" placeholder="GPU Manufacturer"></dd>
             <dt>Issue Date: </dt><dd><input type="date" name="issue_date" placeholder="Issue Date"></dd>
-            <dt>Geometry Shader: </dt><dd><input type="text" name="geometryShader" placeholder="Geometry Shader"> </dd>
-            <dt>Tesselation Shader: </dt><dd><input type="text" name="tesselationShader" placeholder="Tesselation Shader"></dd>
-            <dt>ShaderInt16: </dt><dd><input type="text" name="shaderInt16" placeholder="ShaderInt16"></dd>
-            <dt>Sparse Binding: </dt><dd><input type="text" name="sparseBinding" placeholder="Sparse Binding"></dd>
-            <dt>Texture Compression ETC2: </dt><dd><input type="text" name="textureCompressionETC2" placeholder="Texture Compression ETC2"></dd>
-            <dt>Vertex Pipeline Stores And Atomics</dt><dd><input type="text" name="vertexPipelineStoresAndAtomics" placeholder="Vertex Pipeline Stores And Atomics"></dd>
+            <dt>Geometry Shader: </dt>
+            <dd><select name="geometryShader">
+                <option selected>True</option>
+                <option>False</option>
+            </select></dd>
+            <dt>Tesselation Shader: </dt>
+            <dd><select name="tesselationShader">
+                <option selected>True</option>
+                <option>False</option>
+            </select></dd>
+            <dt>ShaderInt16: </dt>
+            <dd><select name="shaderInt16">
+                <option selected>True</option>
+                <option>False</option>
+            </select></dd>
+            <dt>Sparse Binding: </dt>
+            <dd><select name="sparseBinding">
+                <option selected>True</option>
+                <option>False</option>
+            </select></dd>
+            <dt>Texture Compression ETC2: </dt>
+            <dd><select name="textureCompressionETC2">
+                <option selected>True</option>
+                <option>False</option>
+            </select></dd>
+            <dt>Vertex Pipeline Stores And Atomics</dt>
+            <dd><select name="vertexPipelineStoresAndAtomics">
+                <option selected>True</option>
+                <option>False</option>
+            </select></dd>
 		    <input type="submit" value="ADD GPU" name="button"/>
 		</form>
 		<br/>

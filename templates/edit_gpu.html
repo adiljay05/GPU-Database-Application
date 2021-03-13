@@ -25,14 +25,68 @@
                 <input type="text" name="name" value="{{ gpu_data['name'] }}"><br>
                 <input type="text" name="manufacturer" value="{{ gpu_data['manufacturer'] }}"><br>
                 <input type="date" name="issue_date" value="{{ gpu_data['issued_date'] }}"><br>
-                <input type="text" name="geometryShader" value="{{ gpu_data['geometryShader'] }}"><br>
-                <input type="text" name="tesselationShader" value="{{ gpu_data['tesselationShader'] }}"><br>
-                <input type="text" name="shaderInt16" value="{{ gpu_data['shaderInt16'] }}"><br>
-                <input type="text" name="sparseBinding" value="{{ gpu_data['sparseBinding'] }}"><br>
-                <input type="text" name="textureCompressionETC2" value="{{ gpu_data['textureCompressionETC2'] }}"><br>
-                <input type="text" name="vertexPipelineStoresAndAtomics" value="{{ gpu_data['vertexPipelineStoresAndAtomics'] }}"><br>
+                <dt>Geometry Shader: </dt>
+                <dd><select name="geometryShader" id="geometryShader">
+                    <option>True</option>
+                    <option>False</option>
+                </select></dd>
+                <dt>Tesselation Shader: </dt>
+                <dd><select name="tesselationShader" id="tesselationShader">
+                    <option>True</option>
+                    <option>False</option>
+                </select></dd>
+                <dt>ShaderInt16: </dt>
+                <dd><select name="shaderInt16" id="shaderInt16">
+                    <option>True</option>
+                    <option>False</option>
+                </select></dd>
+                <dt>Sparse Binding: </dt>
+                <dd><select name="sparseBinding" id="sparseBinding">
+                    <option>True</option>
+                    <option>False</option>
+                </select></dd>
+                <dt>Texture Compression ETC2: </dt>
+                <dd><select name="textureCompressionETC2" id="textureCompressionETC2">
+                    <option>True</option>
+                    <option>False</option>
+                </select></dd>
+                <dt>Vertex Pipeline Stores And Atomics</dt>
+                <dd><select name="vertexPipelineStoresAndAtomics" id="vertexPipelineStoresAndAtomics">
+                    <option selected>True</option>
+                    <option>False</option>
+                </select></dd>
                 <input type="submit" value="UPDATE">
             </form>
+            {% if gpu_data['geometryShader'] == "True" %}
+                <script> document.getElementById("geometryShader").selectedIndex  = 0;</script>
+            {% else %}
+                <script> document.getElementById("geometryShader").selectedIndex  = 1;</script>
+            {% endif %}
+            {% if gpu_data['tesselationShader'] == "True" %}
+                <script> document.getElementById("tesselationShader").selectedIndex  = 0;</script>
+            {% else %}
+                <script> document.getElementById("tesselationShader").selectedIndex  = 1;</script>
+            {% endif %}
+            {% if gpu_data['shaderInt16'] == "True" %}
+                <script> document.getElementById("shaderInt16").selectedIndex  = 0;</script>
+            {% else %}
+                <script> document.getElementById("shaderInt16").selectedIndex  = 1;</script>
+            {% endif %}
+            {% if gpu_data['sparseBinding'] == "True" %}
+                <script> document.getElementById("sparseBinding").selectedIndex  = 0;</script>
+            {% else %}
+                <script> document.getElementById("sparseBinding").selectedIndex  = 1;</script>
+            {% endif %}
+            {% if gpu_data['textureCompressionETC2'] == "True" %}
+                <script> document.getElementById("textureCompressionETC2").selectedIndex  = 0;</script>
+            {% else %}
+                <script> document.getElementById("textureCompressionETC2").selectedIndex  = 1;</script>
+            {% endif %}
+            {% if gpu_data['vertexPipelineStoresAndAtomics'] == "True" %}
+                <script> document.getElementById("vertexPipelineStoresAndAtomics").selectedIndex  = 0;</script>
+            {% else %}
+                <script> document.getElementById("vertexPipelineStoresAndAtomics").selectedIndex  = 1;</script>
+            {% endif %}
         {% elif error_message %}
 		Error Message: {{ error_message }}
 		{% endif %}

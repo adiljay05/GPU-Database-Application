@@ -23,18 +23,20 @@ def add_gpu():
 
 @app.route('/add_gpu_to_datastore',methods = ['POST'])
 def add_gpu_to_datastore():
+    # print(request.form['geometryShader'])
     obj = GPU_info(request.form['gpu_name'],request.form['manufacturer'],request.form['issue_date'],request.form['geometryShader'],request.form['tesselationShader'],request.form['shaderInt16'],request.form['sparseBinding'],request.form['textureCompressionETC2'],request.form['vertexPipelineStoresAndAtomics'])
     check = functions.add_GPU(obj)
     if check == "ok":
         return redirect("/")
     else:
         return render_template('error.html',error="Record Already Exists")
+    # return render_template('error.html',error="Record Already Exists")
 
 @app.route('/show_details',methods = ['POST'])
 def show_details_of_GPU():
     gpu_name = request.form['gpu_name']
-    entity_key = datastore_client.key('GPUInfo', gpu_name)
-    gpu_data = functions.get_specific_GPU(entity_key)
+    print(gpu_name)
+    gpu_data = functions.get_gpu_by_name(gpu_name)
     id_token = request.cookies.get("token")
     claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
     user_info = functions.retrieveUserInfo(claims)
@@ -57,7 +59,10 @@ def update_details():
     entity_key = datastore_client.key('GPUInfo', old_name)
     gpu_data = functions.get_specific_GPU(entity_key)
     functions.update_details(obj,old_name,gpu_data)
-    return redirect('/')
+    id_token = request.cookies.get("token")
+    claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
+    user_info = functions.retrieveUserInfo(claims)
+    return render_template('edit_gpu.html',user_data = user_info ,gpu_data = gpu_data)
 
 @app.route('/')
 def root():
