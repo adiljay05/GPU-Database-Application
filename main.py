@@ -24,8 +24,11 @@ def add_gpu():
 @app.route('/add_gpu_to_datastore',methods = ['POST'])
 def add_gpu_to_datastore():
     obj = GPU_info(request.form['gpu_name'],request.form['manufacturer'],request.form['issue_date'],request.form['geometryShader'],request.form['tesselationShader'],request.form['shaderInt16'],request.form['sparseBinding'],request.form['textureCompressionETC2'],request.form['vertexPipelineStoresAndAtomics'])
-    functions.add_GPU(obj)
-    return redirect('/')
+    check = functions.add_GPU(obj)
+    if check == "ok":
+        return redirect("/")
+    else:
+        return render_template('error.html',error="Record Already Exists")
 
 @app.route('/')
 def root():

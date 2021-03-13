@@ -2,6 +2,7 @@ from google.cloud import datastore
 import os
 from google.auth.transport import requests
 from holder_classes import GPU_info
+from flask import Flask, render_template, request,redirect
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "jawad1.json"
@@ -25,17 +26,26 @@ def createUserInfo(claims):
 
 def add_GPU(obj):
     entity_key = datastore_client.key('GPUInfo', obj.name)
-    entity = datastore.Entity(key = entity_key)
-    entity.update({
-        "name": obj.name,
-        'manufacturer': obj.manufacturer,
-        'issued_date': obj.issued_date,
-        'geometryShader' : obj.geometryShader,
-        'tesselationShader' : obj.tesselationShader,
-        'shaderInt16' : obj.shaderInt16,
-        'sparseBinding' : obj.sparseBinding,
-        'textureCompressionETC2' : obj.textureCompressionETC2,
-        'vertexPipelineStoresAndAtomics' : obj.vertexPipelineStoresAndAtomics,
-    })
-    datastore_client.put(entity)
+    if get_specific_GPU(entity_key) == None:
+        print("adding to db")
+        entity = datastore.Entity(key = entity_key)
+        entity.update({
+            "name": obj.name,
+            'manufacturer': obj.manufacturer,
+            'issued_date': obj.issued_date,
+            'geometryShader' : obj.geometryShader,
+            'tesselationShader' : obj.tesselationShader,
+            'shaderInt16' : obj.shaderInt16,
+            'sparseBinding' : obj.sparseBinding,
+            'textureCompressionETC2' : obj.textureCompressionETC2,
+            'vertexPipelineStoresAndAtomics' : obj.vertexPipelineStoresAndAtomics,
+        })
+        datastore_client.put(entity)
+        return "ok"
+    else:
+        print("record already exists")
+        return "not_ok"
+
+def get_specific_GPU(entity_key):
+    return datastore_client.get(entity_key)
 
