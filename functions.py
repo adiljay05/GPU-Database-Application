@@ -53,3 +53,14 @@ def get_all_gpus():
     query = datastore_client.query(kind='GPUInfo')
     return query.fetch()
 
+def update_details(obj,old_name,gpu_data):
+    gpu_data['name'] = obj.name
+    gpu_data['manufacturer'] = obj.manufacturer
+    gpu_data['issued_date'] = obj.issued_date
+    gpu_data['geometryShader'] = obj.geometryShader
+    gpu_data['tesselationShader'] = obj.tesselationShader
+    gpu_data['shaderInt16'] = obj.shaderInt16
+    gpu_data['sparseBinding'] = obj.sparseBinding
+    gpu_data['textureCompressionETC2'] = obj.textureCompressionETC2
+    gpu_data['vertexPipelineStoresAndAtomics'] = obj.vertexPipelineStoresAndAtomics
+    datastore_client.put(gpu_data)

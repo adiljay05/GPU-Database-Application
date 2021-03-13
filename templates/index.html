@@ -33,6 +33,10 @@
 				<p><a href="#" onclick="document.getElementById('myform{{loop.index}}').submit();"> {{ gpu['name'] }}</a></p>
 				{% set i = i + 1 %}
 			</form>
+			<form action='edit_gpu' method="post" id="editform">
+				<input type="hidden" name="gpu_name" value="{{ gpu['name'] }}">
+				<input type="submit" value="EDIT">
+			</form>
 			{% endfor %}
 		{% else %}
 			<p>No GPU found in Database</p>

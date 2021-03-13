@@ -40,6 +40,25 @@ def show_details_of_GPU():
     user_info = functions.retrieveUserInfo(claims)
     return render_template('GPU_Details.html',user_data = user_info ,gpu_data = gpu_data)
 
+@app.route('/edit_gpu',methods = ['POST'])
+def edit_gpu():
+    gpu_name = request.form['gpu_name']
+    entity_key = datastore_client.key('GPUInfo', gpu_name)
+    gpu_data = functions.get_specific_GPU(entity_key)
+    id_token = request.cookies.get("token")
+    claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
+    user_info = functions.retrieveUserInfo(claims)
+    return render_template('edit_gpu.html',user_data = user_info ,gpu_data = gpu_data)
+
+@app.route('/update_details',methods = ['POST'])
+def update_details():
+    obj = GPU_info(request.form['name'],request.form['manufacturer'],request.form['issue_date'],request.form['geometryShader'],request.form['tesselationShader'],request.form['shaderInt16'],request.form['sparseBinding'],request.form['textureCompressionETC2'],request.form['vertexPipelineStoresAndAtomics'])
+    old_name = request.form['old_name']
+    entity_key = datastore_client.key('GPUInfo', old_name)
+    gpu_data = functions.get_specific_GPU(entity_key)
+    functions.update_details(obj,old_name,gpu_data)
+    return redirect('/')
+
 @app.route('/')
 def root():
     id_token = request.cookies.get("token")
