@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>GPU Details</title>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <script src="/static/scripts.js"></script>
+    <script>
+        function remove_(i,j){
+            gpu1 = document.getElementById(i)
+            gpu2 = document.getElementById(j)
+            gpu2.remove(gpu1.selectedIndex);
+        }
+    </script>
+</head>
+
+<body>
+    <h1>GPU Details</h1>
+    <div id="firebase-auth-container"></div>
+    <button id="sign-out" hidden="true">Sign out</button>
+    <div id="login-info" hidden="true">
+		{% if user_data %}
+            <dl>
+                <dt>Name:</dt><dd>{{ user_data['name'] }}</dd>
+                <dt>Email:</dt><dd>{{ user_data['email'] }}</dd>
+            </dl>
+            <form action="/comparison" method="POST">
+                <table>
+                    <tr>
+                        <th>GPU-1</th>
+                        <th>vs</th>
+                        <th>GPU-2</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select name="gpu1" id="gpu1">
+                                <option>-- Please Select a GPU</option>
+                                {% for i in GPU_list1 %}
+                                    <option>{{ i['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>vs</td>
+                        <td>
+                            <select name="gpu2" id="gpu2">
+                                <option>-- Please Select a GPU</option>
+                                {% for j in GPU_list2 %}
+                                    <option>{{ j['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <input type="submit" value="Compare">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        {% elif error_message %}
+		    Error Message: {{ error_message }}
+		{% endif %}
+    </div>
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+<script src="{{ url_for('static', filename='app-setup.js') }}"></script>
+
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>GPU Details</title>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <script src="/static/scripts.js"></script>
+    <script>
+        function remove_(i,j){
+            gpu1 = document.getElementById(i)
+            gpu2 = document.getElementById(j)
+            gpu2.remove(gpu1.selectedIndex);
+        }
+    </script>
+</head>
+
+<body>
+    <h1>GPU Details</h1>
+    <div id="firebase-auth-container"></div>
+    <button id="sign-out" hidden="true">Sign out</button>
+    <div id="login-info" hidden="true">
+		{% if user_data %}
+            <dl>
+                <dt>Name:</dt><dd>{{ user_data['name'] }}</dd>
+                <dt>Email:</dt><dd>{{ user_data['email'] }}</dd>
+            </dl>
+            <table>
+                <tr>
+                    <th>Property</th>
+                    <th>GPU-1</th>
+                    <th>vs</th>
+                    <th>GPU-2</th>
+                </tr>
+                <tr>
+                    <td>Name: </td>
+                    <td>{{ gpu1['name'] }}</td>
+                    <td rowspan="9"></td>
+                    <td>{{ gpu2['name'] }}</td>
+                </tr>
+                <tr>
+                    <td>Manufacturer: </td>
+                    <td>{{ gpu1['manufacturer'] }}</td>
+                    <td>{{ gpu2['manufacturer'] }}</td>
+                </tr>
+                <tr>
+                    <td>Issue Date: </td>
+                    <td>{{ gpu1['issued_date'] }}</td>
+                    <td>{{ gpu2['issued_date'] }}</td>
+                </tr>
+                <tr>
+                    <td>Geometry Shader: </td>
+                    <td>{{ gpu1['geometryShader'] }}</td>
+                    <td>{{ gpu2['geometryShader'] }}</td>
+                </tr>
+                <tr>
+                    <td>Tesselation Shader: </td>
+                    <td>{{ gpu1['tesselationShader'] }}</td>
+                    <td>{{ gpu2['tesselationShader'] }}</td>
+                </tr>
+                <tr>
+                    <td>ShaderInt16: </td>
+                    <td>{{ gpu1['shaderInt16'] }}</td>
+                    <td>{{ gpu2['shaderInt16'] }}</td>
+                </tr>
+                <tr>
+                    <td>Sparse Binding: </td>
+                    <td>{{ gpu1['sparseBinding'] }}</td>
+                    <td>{{ gpu2['sparseBinding'] }}</td>
+                </tr>
+                <tr>
+                    <td>Texture comparession ETC2: </td>
+                    <td>{{ gpu1['textureCompressionETC2'] }}</td>
+                    <td>{{ gpu2['textureCompressionETC2'] }}</td>
+                </tr>
+                <tr>
+                    <td>Vertex Pipeline Stores And Atomics: </td>
+                    <td>{{ gpu1['vertexPipelineStoresAndAtomics'] }}</td>
+                    <td>{{ gpu2['vertexPipelineStoresAndAtomics'] }}</td>
+                </tr>
+            </table>
+        {% elif error_message %}
+		    Error Message: {{ error_message }}
+		{% endif %}
+    </div>
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+<script src="{{ url_for('static', filename='app-setup.js') }}"></script>
+
+</html>

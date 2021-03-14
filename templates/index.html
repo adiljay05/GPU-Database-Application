@@ -42,6 +42,11 @@
 				<input type="submit" name="add_gpu" value="ADD GPU"/>
 			</form>
 		</div>
+		<div>
+			<form action="/compare" method="post">
+				<input type="submit" value="Compare 2 GPU's"/>
+			</form>
+		</div>
 		{% if GPU_list != None %}
 		<form action="/add_filters" id="add_filters" method="POST">
 			<input type="hidden" id="geometryShader" name="geometryShader" value="{{ filters[0] }}">

@@ -111,6 +111,27 @@ def add_filters():
     error_message = "error while fetching relevant data"
     return render_template('index.html', user_data=user_info, error_message=error_message,GPU_list = GPU_list,filters = filters)
 
+
+@app.route('/compare',methods=['POST'])
+def compare():
+    id_token = request.cookies.get("token")
+    claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
+    user_info = functions.retrieveUserInfo(claims)
+    GPU_list1 = functions.get_all_gpus()
+    GPU_list2 = functions.get_all_gpus()
+    return render_template('compare.html',user_data=user_info,GPU_list1 = GPU_list1,GPU_list2 = GPU_list2)
+
+@app.route('/comparison',methods=['POST'])
+def comparison():
+    id_token = request.cookies.get("token")
+    claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
+    user_info = functions.retrieveUserInfo(claims)
+    gpu1 = request.form['gpu1']
+    gpu2 = request.form['gpu2']
+    gpu1_data = functions.get_gpu_by_name(gpu1)
+    gpu2_data = functions.get_gpu_by_name(gpu2)
+    return render_template('comparison.html',user_data=user_info,gpu1 = gpu1_data,gpu2 = gpu2_data)
+
 @app.route('/')
 def root():
     id_token = request.cookies.get("token")
