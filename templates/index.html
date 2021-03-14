@@ -44,12 +44,12 @@
 		</div>
 		{% if GPU_list != None %}
 		<form action="/add_filters" id="add_filters" method="POST">
-			<input type="text" id="geometryShader" name="geometryShader" value="{{ filters[0] }}">
-			<input type="text" id="tesselationShader" name="tesselationShader" value="{{ filters[1] }}">
-			<input type="text" id="shaderInt16" name="shaderInt16" value="{{ filters[2] }}">
-			<input type="text" id="sparseBinding" name="sparseBinding" value="{{ filters[3] }}">
-			<input type="text" id="textureCompressionETC2" name="textureCompressionETC2" value="{{ filters[4] }}">
-			<input type="text" id="vertexPipelineStoresAndAtomics" name="vertexPipelineStoresAndAtomics" value="{{ filters[5] }}">
+			<input type="hidden" id="geometryShader" name="geometryShader" value="{{ filters[0] }}">
+			<input type="hidden" id="tesselationShader" name="tesselationShader" value="{{ filters[1] }}">
+			<input type="hidden" id="shaderInt16" name="shaderInt16" value="{{ filters[2] }}">
+			<input type="hidden" id="sparseBinding" name="sparseBinding" value="{{ filters[3] }}">
+			<input type="hidden" id="textureCompressionETC2" name="textureCompressionETC2" value="{{ filters[4] }}">
+			<input type="hidden" id="vertexPipelineStoresAndAtomics" name="vertexPipelineStoresAndAtomics" value="{{ filters[5] }}">
 		</form>
 		<table>
 			<tr>
@@ -118,6 +118,11 @@
 					{% if filters[5] == 'False' %}
 						<script>document.getElementById('vertexPipelineStoresAndAtomicsFalse').checked = true </script>
 					{% endif %}
+				</td>
+				<td>
+					<form action="/" method="GET">
+						<input type="submit" value="Reset All Filters">
+					</form>
 				</td>
 			</tr>
 		</table>
