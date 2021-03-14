@@ -2,7 +2,11 @@
 <html>
 
 <head>
-    <title>GPU Details</title>
+    <title>GPU Comparison</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
     <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -18,16 +22,43 @@
 </head>
 
 <body>
-    <h1>GPU Details</h1>
+    <h1>Welcome to GPU Database</h1>
     <div id="firebase-auth-container"></div>
-    <button id="sign-out" hidden="true">Sign out</button>
+    <button id="sign-out" class="btn btn-danger" hidden="true">Sign out</button>
     <div id="login-info" hidden="true">
+		<hr>
 		{% if user_data %}
-            <dl>
-                <dt>Name:</dt><dd>{{ user_data['name'] }}</dd>
-                <dt>Email:</dt><dd>{{ user_data['email'] }}</dd>
-            </dl>
-            <table>
+		<div align="center">
+			<table class="table" style="width: 40%;">
+				<tr class="table-success">
+					<td>Name: {{ user_data['name'] }}</td>
+					<td colspan="2">Email: {{ user_data['email'] }}</td>
+				</tr>
+				<tr>
+					<td>
+						<form class="form" action="/add_gpu" method="post">
+							<input type="submit" class="btn btn-warning form-control" name="add_gpu" value="ADD GPU"/>
+						</form>
+					</td>
+					<td>
+						<form class="form" action="/compare" method="post">
+							<input type="submit" class="btn btn-warning form-control" value="Compare 2 GPU's"/>
+						</form>
+					</td>
+                    <td>
+                        <form action="/" method="GET">
+                            <input type="submit" class="btn btn-warning form-control" value="Back to Home">
+                        </form>
+                    </td>
+				</tr>
+			</table>
+		</div>
+		<hr>
+        <div align="center">
+            <h3>GPU Comparison</h3>
+        </div>
+        <div align="center">
+            <table class="table table-striped" style="width: 40%;">
                 <tr>
                     <th>Property</th>
                     <th>GPU-1</th>
@@ -37,47 +68,55 @@
                 <tr>
                     <td>Name: </td>
                     <td>{{ gpu1['name'] }}</td>
-                    <td rowspan="9"></td>
+                    <td></td>
                     <td>{{ gpu2['name'] }}</td>
                 </tr>
                 <tr>
                     <td>Manufacturer: </td>
                     <td>{{ gpu1['manufacturer'] }}</td>
+                    <td></td>
                     <td>{{ gpu2['manufacturer'] }}</td>
                 </tr>
                 <tr>
                     <td>Issue Date: </td>
                     <td>{{ gpu1['issued_date'] }}</td>
+                    <td></td>
                     <td>{{ gpu2['issued_date'] }}</td>
                 </tr>
                 <tr>
                     <td>Geometry Shader: </td>
                     <td>{{ gpu1['geometryShader'] }}</td>
+                    <td></td>
                     <td>{{ gpu2['geometryShader'] }}</td>
                 </tr>
                 <tr>
                     <td>Tesselation Shader: </td>
                     <td>{{ gpu1['tesselationShader'] }}</td>
+                    <td></td>
                     <td>{{ gpu2['tesselationShader'] }}</td>
                 </tr>
                 <tr>
                     <td>ShaderInt16: </td>
                     <td>{{ gpu1['shaderInt16'] }}</td>
+                    <td></td>
                     <td>{{ gpu2['shaderInt16'] }}</td>
                 </tr>
                 <tr>
                     <td>Sparse Binding: </td>
                     <td>{{ gpu1['sparseBinding'] }}</td>
+                    <td></td>
                     <td>{{ gpu2['sparseBinding'] }}</td>
                 </tr>
                 <tr>
                     <td>Texture comparession ETC2: </td>
                     <td>{{ gpu1['textureCompressionETC2'] }}</td>
+                    <td></td>
                     <td>{{ gpu2['textureCompressionETC2'] }}</td>
                 </tr>
                 <tr>
                     <td>Vertex Pipeline Stores And Atomics: </td>
                     <td>{{ gpu1['vertexPipelineStoresAndAtomics'] }}</td>
+                    <td></td>
                     <td>{{ gpu2['vertexPipelineStoresAndAtomics'] }}</td>
                 </tr>
             </table>

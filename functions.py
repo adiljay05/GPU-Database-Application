@@ -26,6 +26,7 @@ def retrieveUserInfo(claims):
 
 def createUserInfo(claims):
     entity_key = datastore_client.key('UserInfo', claims['email'])
+    print(claims)
     entity = datastore.Entity(key = entity_key)
     entity.update({
         'email': claims['email'],

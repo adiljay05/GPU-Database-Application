@@ -2,7 +2,11 @@
 <html>
 
 <head>
-    <title>GPU Details</title>
+    <title>Compare GPU</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
     <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -18,48 +22,76 @@
 </head>
 
 <body>
-    <h1>GPU Details</h1>
+    <h1>Welcome to GPU Database</h1>
     <div id="firebase-auth-container"></div>
-    <button id="sign-out" hidden="true">Sign out</button>
+    <button id="sign-out" class="btn btn-danger" hidden="true">Sign out</button>
     <div id="login-info" hidden="true">
+		<hr>
 		{% if user_data %}
-            <dl>
-                <dt>Name:</dt><dd>{{ user_data['name'] }}</dd>
-                <dt>Email:</dt><dd>{{ user_data['email'] }}</dd>
-            </dl>
-            <form action="/comparison" method="POST">
-                <table>
-                    <tr>
-                        <th>GPU-1</th>
-                        <th>vs</th>
-                        <th>GPU-2</th>
+            <div align="center">
+                <table class="table" style="width: 40%;">
+                    <tr class="table-success">
+                        <td>Name: {{ user_data['name'] }}</td>
+                        <td colspan="2">Email: {{ user_data['email'] }}</td>
                     </tr>
                     <tr>
                         <td>
-                            <select name="gpu1" id="gpu1">
-                                <option>-- Please Select a GPU</option>
-                                {% for i in GPU_list1 %}
-                                    <option>{{ i['name'] }}</option>
-                                {% endfor %}
-                            </select>
+                            <form class="form" action="/add_gpu" method="post">
+                                <input type="submit" class="btn btn-warning form-control" name="add_gpu" value="ADD GPU"/>
+                            </form>
                         </td>
-                        <td>vs</td>
                         <td>
-                            <select name="gpu2" id="gpu2">
-                                <option>-- Please Select a GPU</option>
-                                {% for j in GPU_list2 %}
-                                    <option>{{ j['name'] }}</option>
-                                {% endfor %}
-                            </select>
+                            <form class="form" action="/compare" method="post">
+                                <input type="submit" class="btn btn-warning form-control" value="Compare 2 GPU's"/>
+                            </form>
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <input type="submit" value="Compare">
+                        <td>
+                            <form action="/" method="GET">
+                                <input type="submit" class="btn btn-warning form-control" value="Back to Home">
+                            </form>
                         </td>
                     </tr>
                 </table>
-            </form>
+            </div>
+            <hr>
+            <div align="center">
+                <h3>Compare GPU's</h3>
+            </div>
+            <div align="center">
+                <form action="/comparison" method="POST">
+                    <table class="table table-secondary" style="width: 40%;">
+                        <tr>
+                            <th>GPU-1</th>
+                            <th>vs</th>
+                            <th>GPU-2</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="form-control" name="gpu1" id="gpu1">
+                                    <option>-- Please Select a GPU --</option>
+                                    {% for i in GPU_list1 %}
+                                        <option>{{ i['name'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>vs</td>
+                            <td>
+                                <select class="form-control" name="gpu2" id="gpu2">
+                                    <option>-- Please Select a GPU --</option>
+                                    {% for j in GPU_list2 %}
+                                        <option>{{ j['name'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <input class="btn btn-info form-control" type="submit" value="Compare">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
         {% elif error_message %}
 		    Error Message: {{ error_message }}
 		{% endif %}

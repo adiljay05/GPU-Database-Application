@@ -2,7 +2,11 @@
 <html>
 
 <head>
-    <title>GPU Details</title>
+    <title>Edit GPU</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
     <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -11,82 +15,153 @@
 </head>
 
 <body>
-    <h1>GPU Details</h1>
+    <h1>Welcome to GPU Database</h1>
     <div id="firebase-auth-container"></div>
-    <button id="sign-out" hidden="true">Sign out</button>
+    <button id="sign-out" class="btn btn-danger" hidden="true">Sign out</button>
     <div id="login-info" hidden="true">
+		<hr>
 		{% if user_data %}
-            <dl>
-                <dt>Name:</dt><dd>{{ user_data['name'] }}</dd>
-                <dt>Email:</dt><dd>{{ user_data['email'] }}</dd>
-            </dl>
-            <form action="/update_details" method="POST">
-                <input type="hidden" name="old_name" value="{{gpu_data['name'] }}">
-                <input type="text" name="name" value="{{ gpu_data['name'] }}"><br>
-                <input type="text" name="manufacturer" value="{{ gpu_data['manufacturer'] }}"><br>
-                <input type="date" name="issue_date" value="{{ gpu_data['issued_date'] }}"><br>
-                <dt>Geometry Shader: </dt>
-                <dd><select name="geometryShader" id="geometryShader">
-                    <option>True</option>
-                    <option>False</option>
-                </select></dd>
-                <dt>Tesselation Shader: </dt>
-                <dd><select name="tesselationShader" id="tesselationShader">
-                    <option>True</option>
-                    <option>False</option>
-                </select></dd>
-                <dt>ShaderInt16: </dt>
-                <dd><select name="shaderInt16" id="shaderInt16">
-                    <option>True</option>
-                    <option>False</option>
-                </select></dd>
-                <dt>Sparse Binding: </dt>
-                <dd><select name="sparseBinding" id="sparseBinding">
-                    <option>True</option>
-                    <option>False</option>
-                </select></dd>
-                <dt>Texture Compression ETC2: </dt>
-                <dd><select name="textureCompressionETC2" id="textureCompressionETC2">
-                    <option>True</option>
-                    <option>False</option>
-                </select></dd>
-                <dt>Vertex Pipeline Stores And Atomics</dt>
-                <dd><select name="vertexPipelineStoresAndAtomics" id="vertexPipelineStoresAndAtomics">
-                    <option selected>True</option>
-                    <option>False</option>
-                </select></dd>
-                <input type="submit" value="UPDATE">
-            </form>
-            {% if gpu_data['geometryShader'] == "True" %}
-                <script> document.getElementById("geometryShader").selectedIndex  = 0;</script>
-            {% else %}
-                <script> document.getElementById("geometryShader").selectedIndex  = 1;</script>
-            {% endif %}
-            {% if gpu_data['tesselationShader'] == "True" %}
-                <script> document.getElementById("tesselationShader").selectedIndex  = 0;</script>
-            {% else %}
-                <script> document.getElementById("tesselationShader").selectedIndex  = 1;</script>
-            {% endif %}
-            {% if gpu_data['shaderInt16'] == "True" %}
-                <script> document.getElementById("shaderInt16").selectedIndex  = 0;</script>
-            {% else %}
-                <script> document.getElementById("shaderInt16").selectedIndex  = 1;</script>
-            {% endif %}
-            {% if gpu_data['sparseBinding'] == "True" %}
-                <script> document.getElementById("sparseBinding").selectedIndex  = 0;</script>
-            {% else %}
-                <script> document.getElementById("sparseBinding").selectedIndex  = 1;</script>
-            {% endif %}
-            {% if gpu_data['textureCompressionETC2'] == "True" %}
-                <script> document.getElementById("textureCompressionETC2").selectedIndex  = 0;</script>
-            {% else %}
-                <script> document.getElementById("textureCompressionETC2").selectedIndex  = 1;</script>
-            {% endif %}
-            {% if gpu_data['vertexPipelineStoresAndAtomics'] == "True" %}
-                <script> document.getElementById("vertexPipelineStoresAndAtomics").selectedIndex  = 0;</script>
-            {% else %}
-                <script> document.getElementById("vertexPipelineStoresAndAtomics").selectedIndex  = 1;</script>
-            {% endif %}
+            <div align="center">
+                <table class="table" style="width: 40%;">
+                    <tr class="table-success">
+                        <td>Name: {{ user_data['name'] }}</td>
+                        <td colspan="2">Email: {{ user_data['email'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form class="form" action="/add_gpu" method="post">
+                                <input type="submit" class="btn btn-warning form-control" name="add_gpu" value="ADD GPU"/>
+                            </form>
+                        </td>
+                        <td>
+                            <form class="form" action="/compare" method="post">
+                                <input type="submit" class="btn btn-warning form-control" value="Compare 2 GPU's"/>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/" method="GET">
+                                <input type="submit" class="btn btn-warning form-control" value="Back to Home">
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <hr>
+            <div align="center">
+                <h3>Edit GPU</h3>
+            </div>
+            <div align="center">
+                <table class="table table-sm" style="width: 40%;">
+                    <tr>
+                        <th>Property</th>
+                        <th>Details</th>
+                    </tr>
+                    <form action="/update_details" method="POST">
+                        <input type="hidden" name="old_name" value="{{gpu_data['name'] }}">
+                        <tr>
+                            <td>Name: </td>
+                            <td><input type="text" class="form-control" name="name" value="{{ gpu_data['name'] }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Manufacturer: </td>
+                            <td><input type="text" class="form-control" name="manufacturer" value="{{ gpu_data['manufacturer'] }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Issue Date:</td>
+                            <td><input type="date" class="form-control" name="issue_date" value="{{ gpu_data['issued_date'] }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Geometry Shader:</td>
+                            <td>
+                                <select class="form-control" name="geometryShader" id="geometryShader">
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tesselation Shader:</td>
+                            <td>
+                                <select class="form-control" name="tesselationShader" id="tesselationShader">
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ShaderInt16:</td>
+                            <td>
+                                <select class="form-control" name="shaderInt16" id="shaderInt16">
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sparse Binding:</td>
+                            <td>
+                                <select class="form-control" name="sparseBinding" id="sparseBinding">
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Texture Compression ETC2:</td>
+                            <td>
+                                <select class="form-control" name="textureCompressionETC2" id="textureCompressionETC2">
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Vertex Pipeline Stores And Atomics:</td>
+                            <td>
+                                <select class="form-control" name="vertexPipelineStoresAndAtomics" id="vertexPipelineStoresAndAtomics">
+                                    <option selected>True</option>
+                                    <option>False</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input class="btn btn-info form-control" type="submit" value="UPDATE">
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+                {% if gpu_data['geometryShader'] == "True" %}
+                    <script> document.getElementById("geometryShader").selectedIndex  = 0;</script>
+                {% else %}
+                    <script> document.getElementById("geometryShader").selectedIndex  = 1;</script>
+                {% endif %}
+                {% if gpu_data['tesselationShader'] == "True" %}
+                    <script> document.getElementById("tesselationShader").selectedIndex  = 0;</script>
+                {% else %}
+                    <script> document.getElementById("tesselationShader").selectedIndex  = 1;</script>
+                {% endif %}
+                {% if gpu_data['shaderInt16'] == "True" %}
+                    <script> document.getElementById("shaderInt16").selectedIndex  = 0;</script>
+                {% else %}
+                    <script> document.getElementById("shaderInt16").selectedIndex  = 1;</script>
+                {% endif %}
+                {% if gpu_data['sparseBinding'] == "True" %}
+                    <script> document.getElementById("sparseBinding").selectedIndex  = 0;</script>
+                {% else %}
+                    <script> document.getElementById("sparseBinding").selectedIndex  = 1;</script>
+                {% endif %}
+                {% if gpu_data['textureCompressionETC2'] == "True" %}
+                    <script> document.getElementById("textureCompressionETC2").selectedIndex  = 0;</script>
+                {% else %}
+                    <script> document.getElementById("textureCompressionETC2").selectedIndex  = 1;</script>
+                {% endif %}
+                {% if gpu_data['vertexPipelineStoresAndAtomics'] == "True" %}
+                    <script> document.getElementById("vertexPipelineStoresAndAtomics").selectedIndex  = 0;</script>
+                {% else %}
+                    <script> document.getElementById("vertexPipelineStoresAndAtomics").selectedIndex  = 1;</script>
+                {% endif %}
+            </div>
         {% elif error_message %}
 		Error Message: {{ error_message }}
 		{% endif %}

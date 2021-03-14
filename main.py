@@ -78,9 +78,11 @@ def root():
     filters = list()
     if id_token:
         try:
+            claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
             user_info = functions.get_user_data()
             if user_info == None:
                 functions.createUserInfo(claims)
+                user_info = functions.get_user_data()
             GPU_list = functions.get_all_gpus()
         except ValueError as exc:
             error_message = str(exc)
