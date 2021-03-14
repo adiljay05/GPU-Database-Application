@@ -1,14 +1,23 @@
+import datetime
+from flask import Flask, render_template
 from google.cloud import datastore
 import os
-from google.auth.transport import requests
-from holder_classes import GPU_info
+import google.oauth2.id_token
 from flask import Flask, render_template, request,redirect
+from google.auth.transport import requests
+import functions
+from holder_classes import GPU_info
 
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "jawad1.json"
 
 datastore_client = datastore.Client()
 firebase_request_adapter = requests.Request()
+
+def get_user_data():
+    id_token = request.cookies.get("token")
+    claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
+    return functions.retrieveUserInfo(claims)
 
 def retrieveUserInfo(claims):
     entity_key = datastore_client.key('UserInfo', claims['email'])
@@ -70,3 +79,55 @@ def update_details(obj,old_name,gpu_data):
     gpu_data['textureCompressionETC2'] = obj.textureCompressionETC2
     gpu_data['vertexPipelineStoresAndAtomics'] = obj.vertexPipelineStoresAndAtomics
     datastore_client.put(gpu_data)
+
+def with_filters():
+    filters = list()
+    geometryShader = request.form['geometryShader']
+    tesselationShader = request.form['tesselationShader']
+    shaderInt16 = request.form['shaderInt16']
+    sparseBinding = request.form['sparseBinding']
+    textureCompressionETC2 = request.form['textureCompressionETC2']
+    vertexPipelineStoresAndAtomics = request.form['vertexPipelineStoresAndAtomics']
+    query = datastore_client.query(kind='GPUInfo')
+    if geometryShader != "":
+        query.add_filter('geometryShader','=',geometryShader)
+        filters.append(geometryShader)
+    else:
+        filters.append("")
+    if tesselationShader!="":
+        query.add_filter('tesselationShader','=',tesselationShader)
+        filters.append(tesselationShader)
+    else:
+        filters.append("")
+    if shaderInt16 != "":
+        query.add_filter('shaderInt16','=',shaderInt16)
+        filters.append(shaderInt16)
+    else:
+        filters.append("")
+    if sparseBinding!="":
+        query.add_filter('sparseBinding','=',sparseBinding)
+        filters.append(sparseBinding)
+    else:
+        filters.append("")
+    if textureCompressionETC2!="":
+        query.add_filter('textureCompressionETC2','=',textureCompressionETC2)
+        filters.append(textureCompressionETC2)
+    else:
+        filters.append("")
+    if vertexPipelineStoresAndAtomics != "":
+        query.add_filter('vertexPipelineStoresAndAtomics','=',vertexPipelineStoresAndAtomics)
+        filters.append(vertexPipelineStoresAndAtomics)
+    else:
+        filters.append("")
+    GPU_list = query.fetch()
+    user_info = functions.get_user_data()
+    error_message = "error while fetching relevant data"
+    return render_template('index.html', user_data=user_info, error_message=error_message,GPU_list = GPU_list,filters = filters)
+
+def add_gpu_to_datastore():
+    obj = GPU_info(request.form['gpu_name'],request.form['manufacturer'],request.form['issue_date'],request.form['geometryShader'],request.form['tesselationShader'],request.form['shaderInt16'],request.form['sparseBinding'],request.form['textureCompressionETC2'],request.form['vertexPipelineStoresAndAtomics'])
+    check = functions.add_GPU(obj)
+    if check == "ok":
+        return redirect("/")
+    else:
+        return render_template('error.html',error="Record Already Exists")
