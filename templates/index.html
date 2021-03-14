@@ -8,6 +8,23 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
     <script src="/static/scripts.js"></script>
+	<script>
+		function change_checkboxes(i,j,k){
+			i1 = document.getElementById(i);
+			j1 = document.getElementById(j);
+			if(i1.checked == true && j1.checked==false){
+				j1.checked = false;
+				document.getElementById(k).value = "True";
+			}else if(j1.checked == true && i1.checked==false){
+				i1.checked = false;
+				document.getElementById(k).value = "False";
+			}
+			if(i1.checked == false && j1.checked == false || i1.checked==true && j1.checked == true){
+				document.getElementById(k).value = "";
+			}
+			document.getElementById('add_filters').submit();
+		}
+	</script>
 </head>
 
 <body>
@@ -26,6 +43,85 @@
 			</form>
 		</div>
 		{% if GPU_list != None %}
+		<form action="/add_filters" id="add_filters" method="POST">
+			<input type="text" id="geometryShader" name="geometryShader" value="{{ filters[0] }}">
+			<input type="text" id="tesselationShader" name="tesselationShader" value="{{ filters[1] }}">
+			<input type="text" id="shaderInt16" name="shaderInt16" value="{{ filters[2] }}">
+			<input type="text" id="sparseBinding" name="sparseBinding" value="{{ filters[3] }}">
+			<input type="text" id="textureCompressionETC2" name="textureCompressionETC2" value="{{ filters[4] }}">
+			<input type="text" id="vertexPipelineStoresAndAtomics" name="vertexPipelineStoresAndAtomics" value="{{ filters[5] }}">
+		</form>
+		<table>
+			<tr>
+				<td>
+					Geometry Shader:<br>
+					True : <input type="checkbox" id="geometryShaderTrue" onclick="change_checkboxes('geometryShaderTrue','geometryShaderFalse','geometryShader')" name="geometryShaderTrue" ><br>
+					False: <input type="checkbox" id="geometryShaderFalse" onclick="change_checkboxes('geometryShaderTrue','geometryShaderFalse','geometryShader')" name="geometryShaderFalse" >
+					{% if filters[0] == 'True' %}
+						<script>document.getElementById('geometryShaderTrue').checked = true </script>
+					{% endif %}
+					{% if filters[0] == 'False' %}
+						<script>document.getElementById('geometryShaderFalse').checked = true </script>
+					{% endif %}
+				</td>
+				<td>
+					Tesselation Shader:<br>
+					True : <input type="checkbox" id="tesselationShaderTrue" onclick="change_checkboxes('tesselationShaderTrue','tesselationShaderFalse','tesselationShader')" name="tesselationShaderTrue"><br>
+					False: <input type="checkbox" id="tesselationShaderFalse" onclick="change_checkboxes('tesselationShaderTrue','tesselationShaderFalse','tesselationShader')" name="tesselationShaderFalse">
+					{% if filters[1] == 'True' %}
+						<script>document.getElementById('tesselationShaderTrue').checked = true </script>
+					{% endif %}
+					{% if filters[1] == 'False' %}
+						<script>document.getElementById('tesselationShaderFalse').checked = true </script>
+					{% endif %}
+				</td>
+				<td>
+					ShaderInt16:<br>
+					True : <input type="checkbox" id="shaderInt16True" onclick="change_checkboxes('shaderInt16True','shaderInt16False','shaderInt16')" name="shaderInt16True"><br>
+					False: <input type="checkbox" id="shaderInt16False" onclick="change_checkboxes('shaderInt16True','shaderInt16False','shaderInt16')" name="shaderInt16False">
+					{% if filters[2] == 'True' %}
+						<script>document.getElementById('shaderInt16True').checked = true </script>
+					{% endif %}
+					{% if filters[2] == 'False' %}
+						<script>document.getElementById('shaderInt16False').checked = true </script>
+					{% endif %}
+				</td>
+				<td>
+					Sparse Binding:<br>
+					True : <input type="checkbox" id="sparseBindingTrue" onclick="change_checkboxes('sparseBindingTrue','sparseBindingFalse','sparseBinding')" name="sparseBindingTrue"><br>
+					False: <input type="checkbox" id="sparseBindingFalse" onclick="change_checkboxes('sparseBindingTrue','sparseBindingFalse','sparseBinding')" name="sparseBindingFalse">
+					{% if filters[3] == 'True' %}
+						<script>document.getElementById('sparseBindingTrue').checked = true </script>
+					{% endif %}
+					{% if filters[3] == 'False' %}
+						<script>document.getElementById('sparseBindingFalse').checked = true </script>
+					{% endif %}
+				</td>
+				<td>
+					Texture Compression ETC2:<br>
+					True : <input type="checkbox" id="textureCompressionETC2True" onclick="change_checkboxes('textureCompressionETC2True','textureCompressionETC2False','textureCompressionETC2')" name="textureCompressionETC2True"><br>
+					False: <input type="checkbox" id="textureCompressionETC2False" onclick="change_checkboxes('textureCompressionETC2True','textureCompressionETC2False','textureCompressionETC2')" name="textureCompressionETC2False">
+					{% if filters[4] == 'True' %}
+						<script>document.getElementById('textureCompressionETC2True').checked = true </script>
+					{% endif %}
+					{% if filters[4] == 'False' %}
+						<script>document.getElementById('textureCompressionETC2False').checked = true </script>
+					{% endif %}
+				</td>
+				<td>
+					Vertex Pipeline Stores And Atomics:<br>
+					True : <input type="checkbox" id="vertexPipelineStoresAndAtomicsTrue" onclick="change_checkboxes('vertexPipelineStoresAndAtomicsTrue','vertexPipelineStoresAndAtomicsFalse','vertexPipelineStoresAndAtomics')" name="vertexPipelineStoresAndAtomicsTrue"><br>
+					False: <input type="checkbox" id="vertexPipelineStoresAndAtomicsFalse" onclick="change_checkboxes('vertexPipelineStoresAndAtomicsTrue','vertexPipelineStoresAndAtomicsFalse','vertexPipelineStoresAndAtomics')" name="vertexPipelineStoresAndAtomicsFalse">
+					{% if filters[5] == 'True' %}
+						<script>document.getElementById('vertexPipelineStoresAndAtomicsTrue').checked = true </script>
+					{% endif %}
+					{% if filters[5] == 'False' %}
+						<script>document.getElementById('vertexPipelineStoresAndAtomicsFalse').checked = true </script>
+					{% endif %}
+				</td>
+			</tr>
+		</table>
+		
 		{% set i = 0 %}
 			{% for gpu in GPU_list %}
 			<form action='/show_details' method="post" id="myform{{loop.index}}">

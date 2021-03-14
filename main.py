@@ -64,6 +64,53 @@ def update_details():
     user_info = functions.retrieveUserInfo(claims)
     return render_template('edit_gpu.html',user_data = user_info ,gpu_data = gpu_data)
 
+@app.route('/add_filters',methods=['POST'])
+def add_filters():
+    filters = list()
+    geometryShader = request.form['geometryShader']
+    tesselationShader = request.form['tesselationShader']
+    shaderInt16 = request.form['shaderInt16']
+    sparseBinding = request.form['sparseBinding']
+    textureCompressionETC2 = request.form['textureCompressionETC2']
+    vertexPipelineStoresAndAtomics = request.form['vertexPipelineStoresAndAtomics']
+    query = datastore_client.query(kind='GPUInfo')
+    if geometryShader != "":
+        query.add_filter('geometryShader','=',geometryShader)
+        filters.append(geometryShader)
+    else:
+        filters.append("")
+    if tesselationShader!="":
+        query.add_filter('tesselationShader','=',tesselationShader)
+        filters.append(tesselationShader)
+    else:
+        filters.append("")
+    if shaderInt16 != "":
+        query.add_filter('shaderInt16','=',shaderInt16)
+        filters.append(shaderInt16)
+    else:
+        filters.append("")
+    if sparseBinding!="":
+        query.add_filter('sparseBinding','=',sparseBinding)
+        filters.append(sparseBinding)
+    else:
+        filters.append("")
+    if textureCompressionETC2!="":
+        query.add_filter('textureCompressionETC2','=',textureCompressionETC2)
+        filters.append(textureCompressionETC2)
+    else:
+        filters.append("")
+    if vertexPipelineStoresAndAtomics != "":
+        query.add_filter('vertexPipelineStoresAndAtomics','=',vertexPipelineStoresAndAtomics)
+        filters.append(vertexPipelineStoresAndAtomics)
+    else:
+        filters.append("")
+    GPU_list = query.fetch()
+    id_token = request.cookies.get("token")
+    claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
+    user_info = functions.retrieveUserInfo(claims)
+    error_message = "error while fetching relevant data"
+    return render_template('index.html', user_data=user_info, error_message=error_message,GPU_list = GPU_list,filters = filters)
+
 @app.route('/')
 def root():
     id_token = request.cookies.get("token")
@@ -72,6 +119,7 @@ def root():
     user_info = None
     addresses = None
     GPU_list = None
+    filters = list()
     if id_token:
         try:
             claims = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)
@@ -81,7 +129,7 @@ def root():
             GPU_list = functions.get_all_gpus()
         except ValueError as exc:
             error_message = str(exc)
-    return render_template('index.html', user_data=user_info, error_message=error_message,GPU_list = GPU_list)
+    return render_template('index.html', user_data=user_info, error_message=error_message,GPU_list = GPU_list,filters = filters)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
