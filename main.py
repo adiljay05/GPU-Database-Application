@@ -43,8 +43,10 @@ def update_details():
     obj1 = functions.get_gpu_by_name(old_name)
     # entity_key = datastore_client.key('GPUInfo', old_name)
     gpu_data = functions.get_specific_GPU(obj1.key)
-    functions.update_details(obj,old_name,gpu_data)
-    return render_template('edit_gpu.html',gpu_data = gpu_data)
+    if functions.update_details(obj,old_name,gpu_data) == "ok":
+        return render_template('edit_gpu.html',gpu_data = gpu_data)
+    else:
+        return render_template('error.html',error="Record Already Exists")
 
 @app.route('/add_filters',methods=['POST'])
 def add_filters():

@@ -36,7 +36,7 @@ def createUserInfo(claims):
 
 def add_GPU(obj):
     entity_key = datastore_client.key('GPUInfo', obj.name)
-    if get_specific_GPU(entity_key) == None:
+    if get_specific_GPU(entity_key) == None and functions.get_gpu_by_name(obj.name) == None:
         print("adding to db")
         entity = datastore.Entity(key = entity_key)
         entity.update({
@@ -70,16 +70,22 @@ def get_all_gpus():
     return query.fetch()
 
 def update_details(obj,old_name,gpu_data):
-    gpu_data['name'] = obj.name
-    gpu_data['manufacturer'] = obj.manufacturer
-    gpu_data['issued_date'] = obj.issued_date
-    gpu_data['geometryShader'] = obj.geometryShader
-    gpu_data['tesselationShader'] = obj.tesselationShader
-    gpu_data['shaderInt16'] = obj.shaderInt16
-    gpu_data['sparseBinding'] = obj.sparseBinding
-    gpu_data['textureCompressionETC2'] = obj.textureCompressionETC2
-    gpu_data['vertexPipelineStoresAndAtomics'] = obj.vertexPipelineStoresAndAtomics
-    datastore_client.put(gpu_data)
+    entity_key = datastore_client.key('GPUInfo', obj.name)
+    if get_specific_GPU(entity_key) == None and functions.get_gpu_by_name(obj.name) == None:
+        gpu_data['name'] = obj.name
+        gpu_data['manufacturer'] = obj.manufacturer
+        gpu_data['issued_date'] = obj.issued_date
+        gpu_data['geometryShader'] = obj.geometryShader
+        gpu_data['tesselationShader'] = obj.tesselationShader
+        gpu_data['shaderInt16'] = obj.shaderInt16
+        gpu_data['sparseBinding'] = obj.sparseBinding
+        gpu_data['textureCompressionETC2'] = obj.textureCompressionETC2
+        gpu_data['vertexPipelineStoresAndAtomics'] = obj.vertexPipelineStoresAndAtomics
+        datastore_client.put(gpu_data)
+        return "ok"
+    else:
+        return "not_ok"
+
 
 def show_with_filters():
     filters = list()
