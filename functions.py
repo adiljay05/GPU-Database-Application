@@ -81,7 +81,7 @@ def update_details(obj,old_name,gpu_data):
     gpu_data['vertexPipelineStoresAndAtomics'] = obj.vertexPipelineStoresAndAtomics
     datastore_client.put(gpu_data)
 
-def with_filters():
+def show_with_filters():
     filters = list()
     geometryShader = request.form['geometryShader']
     tesselationShader = request.form['tesselationShader']
@@ -91,10 +91,10 @@ def with_filters():
     vertexPipelineStoresAndAtomics = request.form['vertexPipelineStoresAndAtomics']
     query = datastore_client.query(kind='GPUInfo')
     if geometryShader != "":
-        query.add_filter('geometryShader','=',geometryShader)
+        query.add_filter('geometryShader','=',geometryShader)   #either geometryShader = True or geometryShader = False
         filters.append(geometryShader)
     else:
-        filters.append("")
+        filters.append("")  #using these else part because I have to restore the filters on index page by using this "filters" list
     if tesselationShader!="":
         query.add_filter('tesselationShader','=',tesselationShader)
         filters.append(tesselationShader)
@@ -121,9 +121,8 @@ def with_filters():
     else:
         filters.append("")
     GPU_list = query.fetch()
-    user_info = functions.get_user_data()
     error_message = "error while fetching relevant data"
-    return render_template('index.html', user_data=user_info, error_message=error_message,GPU_list = GPU_list,filters = filters)
+    return render_template('index.html', error_message=error_message,GPU_list = GPU_list,filters = filters)
 
 def add_gpu_to_datastore():
     obj = GPU_info(request.form['gpu_name'],request.form['manufacturer'],request.form['issue_date'],request.form['geometryShader'],request.form['tesselationShader'],request.form['shaderInt16'],request.form['sparseBinding'],request.form['textureCompressionETC2'],request.form['vertexPipelineStoresAndAtomics'])

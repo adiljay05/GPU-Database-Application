@@ -27,12 +27,12 @@
     <button id="sign-out" class="btn btn-danger" hidden="true">Sign out</button>
     <div id="login-info" hidden="true">
 		<hr>
-		{% if user_data %}
+		{% if session['name'] %}
 		<div align="center">
 			<table class="table" style="width: 40%;">
 				<tr class="table-success">
-					<td>Name: {{ user_data['name'] }}</td>
-					<td colspan="2">Email: {{ user_data['email'] }}</td>
+					<td>Name: {{ session['name'] }}</td>
+					<td colspan="2">Email: {{ session['email'] }}</td>
 				</tr>
 				<tr>
 					<td>
