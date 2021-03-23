@@ -67,7 +67,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="form-control" name="gpu1" id="gpu1">
+                                <select class="form-control" required name="gpu1" id="gpu1">
                                     <option>-- Please Select a GPU --</option>
                                     {% for i in GPU_list1 %}
                                         <option>{{ i['name'] }}</option>
@@ -76,7 +76,7 @@
                             </td>
                             <td>vs</td>
                             <td>
-                                <select class="form-control" name="gpu2" id="gpu2">
+                                <select class="form-control" required name="gpu2" id="gpu2">
                                     <option>-- Please Select a GPU --</option>
                                     {% for j in GPU_list2 %}
                                         <option>{{ j['name'] }}</option>
