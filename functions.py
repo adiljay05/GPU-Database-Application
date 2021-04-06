@@ -9,7 +9,7 @@ import functions
 from holder_classes import GPU_info
 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "jawad1.json"
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "jawad1.json"
 
 datastore_client = datastore.Client()
 firebase_request_adapter = requests.Request()
