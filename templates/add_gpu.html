@@ -12,12 +12,13 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
     <script src="/static/scripts.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
     <h1>Welcome to GPU Database</h1>
     <div id="firebase-auth-container"></div>
-    <button id="sign-out" class="btn btn-danger" hidden="true">Sign out</button>
+    <button id="sign-out" class="btn btn-danger" hidden="true"><i class="fa fa-power-off"></i> Sign out</button>
     <div id="login-info" hidden="true">
 		<hr>
 		{% if session['name'] %}
@@ -30,17 +31,17 @@
 				<tr>
 					<td>
 						<form class="form" action="/add_gpu" method="post">
-							<input type="submit" class="btn btn-warning form-control" name="add_gpu" value="ADD GPU"/>
+							<button type="submit" class="btn btn-warning form-control" name="add_gpu"><i class="fa fa-plus"></i> ADD GPU </button>
 						</form>
 					</td>
 					<td>
 						<form class="form" action="/compare" method="post">
-							<input type="submit" class="btn btn-warning form-control" value="Compare 2 GPU's"/>
+							<button type="submit" class="btn btn-warning form-control"> <i class="fa fa-exchange"></i> Compare 2 GPU's</button>
 						</form>
 					</td>
                     <td>
                         <form action="/" method="GET">
-                            <input type="submit" class="btn btn-warning form-control" value="Back to Home">
+                            <button type="submit" class="btn btn-warning"><i class="fa fa-home"></i> Home</button>
                         </form>
                     </td>
 				</tr>
@@ -121,7 +122,7 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <input type="submit" class="btn btn-info form-control" value="ADD GPU" name="button"/>
+                            <button type="submit" class="btn btn-info form-control" name="add_gpu"><i class="fa fa-plus"></i> ADD GPU </button>
                         </td>
                     </tr>
                     
