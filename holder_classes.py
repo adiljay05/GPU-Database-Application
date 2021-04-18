@@ -4,9 +4,33 @@ class GPU_info:
         self.name = name
         self.manufacturer = manufacturer
         self.issued_date = issued_date
-        self.geometryShader = geometryShader
-        self.tesselationShader = tesselationShader
-        self.shaderInt16 = shaderInt16
-        self.sparseBinding = sparseBinding
-        self.textureCompressionETC2 = textureCompressionETC2
-        self.vertexPipelineStoresAndAtomics = vertexPipelineStoresAndAtomics
+        
+        if geometryShader == 'True':
+            self.geometryShader = True
+        else:
+            self.geometryShader = False
+        
+        if tesselationShader == 'True':
+            self.tesselationShader = True
+        else:
+            self.tesselationShader = False
+        
+        if shaderInt16 == 'True':
+            self.shaderInt16 = True
+        else:
+            self.shaderInt16 = False
+        
+        if sparseBinding == 'True':
+            self.sparseBinding = True
+        else:
+            self.sparseBinding = False
+        
+        if textureCompressionETC2 == 'True':
+            self.textureCompressionETC2 = True
+        else:
+            self.textureCompressionETC2 = False
+        
+        if vertexPipelineStoresAndAtomics == 'True':
+            self.vertexPipelineStoresAndAtomics = True
+        else:
+            self.vertexPipelineStoresAndAtomics = False

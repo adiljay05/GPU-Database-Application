@@ -1,15 +1,12 @@
 import datetime
 from flask import Flask, render_template
 from google.cloud import datastore
-import os
 import google.oauth2.id_token
 from flask import Flask, render_template, request,redirect
 from google.auth.transport import requests
 import functions
 from holder_classes import GPU_info
 
-
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "jawad1.json"
 
 datastore_client = datastore.Client()
 firebase_request_adapter = requests.Request()
@@ -95,34 +92,35 @@ def show_with_filters():
     sparseBinding = request.form['sparseBinding']
     textureCompressionETC2 = request.form['textureCompressionETC2']
     vertexPipelineStoresAndAtomics = request.form['vertexPipelineStoresAndAtomics']
+    obj = GPU_info("","","",geometryShader,tesselationShader,shaderInt16,sparseBinding,textureCompressionETC2,vertexPipelineStoresAndAtomics)
     query = datastore_client.query(kind='GPUInfo')
     if geometryShader != "":
-        query.add_filter('geometryShader','=',geometryShader)   #either geometryShader = True or geometryShader = False
+        query.add_filter('geometryShader','=',obj.geometryShader)   #either geometryShader = True or geometryShader = False
         filters.append(geometryShader)
     else:
         filters.append("")  #using these else part because I have to restore the filters on index page by using this "filters" list
     if tesselationShader!="":
-        query.add_filter('tesselationShader','=',tesselationShader)
+        query.add_filter('tesselationShader','=',obj.tesselationShader)
         filters.append(tesselationShader)
     else:
         filters.append("")
     if shaderInt16 != "":
-        query.add_filter('shaderInt16','=',shaderInt16)
+        query.add_filter('shaderInt16','=',obj.shaderInt16)
         filters.append(shaderInt16)
     else:
         filters.append("")
     if sparseBinding!="":
-        query.add_filter('sparseBinding','=',sparseBinding)
+        query.add_filter('sparseBinding','=',obj.sparseBinding)
         filters.append(sparseBinding)
     else:
         filters.append("")
     if textureCompressionETC2!="":
-        query.add_filter('textureCompressionETC2','=',textureCompressionETC2)
+        query.add_filter('textureCompressionETC2','=',obj.textureCompressionETC2)
         filters.append(textureCompressionETC2)
     else:
         filters.append("")
     if vertexPipelineStoresAndAtomics != "":
-        query.add_filter('vertexPipelineStoresAndAtomics','=',vertexPipelineStoresAndAtomics)
+        query.add_filter('vertexPipelineStoresAndAtomics','=',obj.vertexPipelineStoresAndAtomics)
         filters.append(vertexPipelineStoresAndAtomics)
     else:
         filters.append("")

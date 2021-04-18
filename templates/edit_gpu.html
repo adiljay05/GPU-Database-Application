@@ -132,32 +132,32 @@
                         </tr>
                     </form>
                 </table>
-                {% if gpu_data['geometryShader'] == "True" %}
+                {% if gpu_data['geometryShader'] %}
                     <script> document.getElementById("geometryShader").selectedIndex  = 0;</script>
                 {% else %}
                     <script> document.getElementById("geometryShader").selectedIndex  = 1;</script>
                 {% endif %}
-                {% if gpu_data['tesselationShader'] == "True" %}
+                {% if gpu_data['tesselationShader'] %}
                     <script> document.getElementById("tesselationShader").selectedIndex  = 0;</script>
                 {% else %}
                     <script> document.getElementById("tesselationShader").selectedIndex  = 1;</script>
                 {% endif %}
-                {% if gpu_data['shaderInt16'] == "True" %}
+                {% if gpu_data['shaderInt16'] %}
                     <script> document.getElementById("shaderInt16").selectedIndex  = 0;</script>
                 {% else %}
                     <script> document.getElementById("shaderInt16").selectedIndex  = 1;</script>
                 {% endif %}
-                {% if gpu_data['sparseBinding'] == "True" %}
+                {% if gpu_data['sparseBinding'] %}
                     <script> document.getElementById("sparseBinding").selectedIndex  = 0;</script>
                 {% else %}
                     <script> document.getElementById("sparseBinding").selectedIndex  = 1;</script>
                 {% endif %}
-                {% if gpu_data['textureCompressionETC2'] == "True" %}
+                {% if gpu_data['textureCompressionETC2']  %}
                     <script> document.getElementById("textureCompressionETC2").selectedIndex  = 0;</script>
                 {% else %}
                     <script> document.getElementById("textureCompressionETC2").selectedIndex  = 1;</script>
                 {% endif %}
-                {% if gpu_data['vertexPipelineStoresAndAtomics'] == "True" %}
+                {% if gpu_data['vertexPipelineStoresAndAtomics'] %}
                     <script> document.getElementById("vertexPipelineStoresAndAtomics").selectedIndex  = 0;</script>
                 {% else %}
                     <script> document.getElementById("vertexPipelineStoresAndAtomics").selectedIndex  = 1;</script>

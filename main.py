@@ -1,13 +1,11 @@
 import datetime
 from flask import Flask, render_template,session
 from google.cloud import datastore
-import os
 import google.oauth2.id_token
 from flask import Flask, render_template, request,redirect
 from google.auth.transport import requests
 import functions
 from holder_classes import GPU_info
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "jawad1.json"
 
 app = Flask(__name__)
 app.secret_key = 'BAD_SECRET_KEY'
